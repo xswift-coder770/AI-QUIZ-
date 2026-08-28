@@ -7,6 +7,8 @@ import Quiz from './components/Quiz'
 import ResultCard from './components/ResultCard'
 import Loading from './components/Loading'
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 // View names for the app state machine
 const VIEWS = {
   HOME: 'home',
@@ -54,7 +56,7 @@ export default function App() {
     setView(VIEWS.LOADING)
 
     try {
-      const res = await fetch('/quiz/random', {
+      const res = await fetch(`${API_URL}/quiz/random`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ subject, topic, difficulty, number_of_questions }),
@@ -101,7 +103,7 @@ export default function App() {
       formData.append('difficulty', difficulty)
       formData.append('number_of_questions', number_of_questions)
 
-      const res = await fetch('/quiz/notes', {
+      const res = await fetch(`${API_URL}/quiz/notes`, {
         method: 'POST',
         body: formData,
       })
@@ -132,7 +134,7 @@ export default function App() {
   // Answer submission
   // -------------------------------------------------------------------------
   const handleAnswerSubmit = async ({ questions, currentIndex, userAnswer, score }) => {
-    const res = await fetch('/quiz/answer', {
+    const res = await fetch(`${API_URL}/quiz/answer`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
